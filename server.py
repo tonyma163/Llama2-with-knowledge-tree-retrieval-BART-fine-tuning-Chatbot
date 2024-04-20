@@ -337,4 +337,5 @@ def generate_text(user_input: UserInput):
         inputs = tokenizer_bart.encode(full_input_without_markers, return_tensors="pt")
         outputs = model_bart.generate(input_ids=inputs.to(device), max_new_tokens=126)
         response_text = tokenizer_bart.decode(outputs[0], skip_special_tokens=True)
+        response_text = response_text.replace(' ', '')
         return {"response": response_text}

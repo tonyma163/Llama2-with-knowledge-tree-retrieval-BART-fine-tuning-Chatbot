@@ -7,7 +7,7 @@ python installed
 
 ## Install Required Packages
 ```
-pip install transformers bitsandbytes accelerate datasets peft trl fastapi uvicorn
+pip install transformers ctransformers bitsandbytes accelerate datasets peft trl jieba fastapi uvicorn
 ```
 
 ## Install Webapp Packages
