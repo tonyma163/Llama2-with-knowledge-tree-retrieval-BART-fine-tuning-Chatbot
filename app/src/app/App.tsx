@@ -26,18 +26,23 @@ export default function Home() {
 
         setIsLoading(true);
         setConversations((prev) => [...prev, { text: userText, sender: 'user' }]);
-        const updatedHistory = conversationHistory + `Instruction:\n${userText}\n\n`;
+
+        const messageWithMarkers = `##@${userText}@##`;
+        const fullInputForServer = conversationHistory + `Instruction:\n${messageWithMarkers}\n\n`;
+        //const updatedHistory = conversationHistory + `Instruction:\n${userText}\n\n`;
         setUserInput('');
+        console.log(`fullInputForServer: ${fullInputForServer}`)
 
         const res = await fetch('http://localhost:8000/generate', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ text: updatedHistory }),
+            body: JSON.stringify({ text: fullInputForServer }),
         });
         const data = await res.json();
 
         setConversations((prev) => [...prev, { text: data.response, sender: 'bot' }]);
-        setConversationHistory(prev => prev + `Response:\n${data.response}\n\n`);
+        //setConversationHistory(prev => prev + `Response:\n${data.response}\n\n`);
+        setConversationHistory(prev => prev + `Instruction:\n${userText}\n\nResponse:\n${data.response}\n\n`);
         setIsLoading(false);
     };
 
