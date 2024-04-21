@@ -1,3 +1,14 @@
+"""
+
+File: server.py
+Author: Tony Ma
+Date: April 21, 2024
+Purpose: This script is the server of the system. It would create the api endpoint.
+It would have the Llama2 and fine-tuned BART model. When received the user query, it would pass to the suitable method to have the output then response through the api endpoint.
+Usage: Please install the require packages. If the hugging face access token is invalid, please replace by your own access token.
+
+"""
+
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
