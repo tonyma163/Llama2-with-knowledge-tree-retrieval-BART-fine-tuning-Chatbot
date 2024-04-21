@@ -27,20 +27,23 @@ pip install transformers ctransformers accelerate datasets peft trl jieba fastap
 
 ## Install Webapp Packages
 ```
-cd codes
 cd app
 npm i
 ```
 
 ## Run Server at localhost:8000
 ```
-cd codes
 uvicorn server:app --reload
 ```
 
 ## Run Webapp at localhost:3000
 ```
-cd codes
 cd app
 npm run dev
 ```
+
+## The source code of the web app is inside the particular directory
+cd app
+cd src
+cd app
+App.tsx <- source code of webapp
