@@ -27,17 +27,20 @@ pip install transformers ctransformers accelerate datasets peft trl jieba fastap
 
 ## Install Webapp Packages
 ```
+cd codes
 cd app
 npm i
 ```
 
 ## Run Server at localhost:8000
 ```
+cd codes
 uvicorn server:app --reload
 ```
 
 ## Run Webapp at localhost:3000
 ```
+cd codes
 cd app
 npm run dev
 ```
