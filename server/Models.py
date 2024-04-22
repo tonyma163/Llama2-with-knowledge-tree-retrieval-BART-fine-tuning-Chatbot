@@ -1,5 +1,5 @@
 from ctransformers import AutoModelForCausalLM
-from transformers import BartForConditionalGeneration, BertTokenizer, AutoTokenizer, pipeline, Text2TextGenerationPipeline
+from transformers import BartForConditionalGeneration, BertTokenizer, AutoTokenizer, pipeline
 import torch
 from peft import PeftModel
 
@@ -38,3 +38,31 @@ def load_bart_model():
     tokenizer.padding_side = "right"
     #pipe = Text2TextGenerationPipeline(model=model, tokenizer=tokenizer)
     return model, tokenizer
+
+
+
+def query_llama(llama_pipe, system_prompt, query, context):
+    # Test
+    prompt = f"""
+    <s>[INST] <<SYS>>
+    {system_prompt}
+     <</SYS>> [/INST]</s>
+
+    <s>[INST]
+    Question: {query}
+    Context: {context}
+    Answer:
+    [/INST]
+        """
+
+    output = llama_pipe(
+        prompt,
+        do_sample=True,
+        max_new_tokens=256,
+        top_k=40,
+        top_p=0.95,
+        temperature=0.75,
+        return_full_text=False,
+        repetition_penalty=1
+    )
+    return output[0]['generated_text']
