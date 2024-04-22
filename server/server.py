@@ -1,20 +1,6 @@
-"""
-
-File: server.py
-Author: Tony Ma
-Date: April 21, 2024
-Purpose: This script is the server of the system. It would create the api endpoint.
-It would have the Llama2 and fine-tuned BART model. When received the user query, it would pass to the suitable method to have the output then response through the api endpoint.
-Usage: Please install the require packages. If the hugging face access token is invalid, please replace by your own access token.
-
-"""
-
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from ctransformers import AutoModelForCausalLM
-from transformers import BartForConditionalGeneration, BertTokenizer, AutoTokenizer, pipeline, Text2TextGenerationPipeline
-from peft import PeftModel
 import torch
 import pandas as pd
 import ast
@@ -23,6 +9,10 @@ import jieba.posseg as pseg
 import jieba
 import random
 import re
+from fastapi import Depends
+
+#
+from Models import load_llama_model, load_bart_model
 
 app = FastAPI()
 
@@ -42,52 +32,12 @@ app.add_middleware(
 # Hugging Face Access Token
 hf_access_token = "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"
 
-# Load Llama2 for knowledge retrieval
-model_llama = AutoModelForCausalLM.from_pretrained(
-    "SinpxAI/Llama2-Chinese-7B-Chat-GGUF",
-    model_file="llama2-chinese-7b-chat.Q4_K_M.gguf",
-    model_type="llama",
-    gpu_layers=0,
-    hf=True
-)
-
-device="cuda:0"
-model_llama = model_llama.to(device)
-model_llama.eval()  # Set to eval mode
-
-tokenizer_llama = AutoTokenizer.from_pretrained("meta-llama/Llama-2-7b-chat-hf", use_fast=True)
-tokenizer_llama.pad_token = tokenizer_llama.eos_token
-tokenizer_llama.padding_side = "right"
-
-pipe_llama = pipeline(task="text-generation", model=model_llama, tokenizer=tokenizer_llama)
-
-# Load fine-tuned bart model
-base_model = "fnlp/bart-base-chinese"
-new_model = "tonyma163/bart_v1"
-
-base_model_reload = BartForConditionalGeneration.from_pretrained(
-        base_model,
-        return_dict=True,
-        low_cpu_mem_usage=True,
-        torch_dtype=torch.float16,
-        device_map="auto",
-        #trust_remote_code=True,
-)
-base_model_reload.half()
-
-model_bart = PeftModel.from_pretrained(base_model_reload, new_model)
-
-model_bart = model_bart.to(device)
-model_bart.eval()  # Set to eval mode
-
-tokenizer_bart = BertTokenizer.from_pretrained(base_model, trust_remote_code=True)
-tokenizer_bart.pad_token = tokenizer_bart.eos_token
-tokenizer_bart.padding_side = "right"
-
-pipe_bart = Text2TextGenerationPipeline(model=model_bart, tokenizer=tokenizer_bart)
+# Load Models
+llama_pipe = load_llama_model(hf_access_token) # Llama pipeline
+bart_model, bart_tokenizer = load_bart_model() # Bart model & tokenizer
 
 # Load Knowledge Set
-file_path = "./knowledge_set.txt"
+file_path = "../dataset/knowledge_set.txt"
 data = []
 # Open the file and parse each line from string to tuple
 with open(file_path, 'r', encoding='utf-8') as file:
@@ -308,7 +258,7 @@ def query_llama(query, context):
     [/INST]
         """
 
-    output = pipe_llama(
+    output = llama_pipe(
         prompt,
         do_sample=True,
         max_new_tokens=256,
@@ -345,8 +295,8 @@ def generate_text(user_input: UserInput):
         return {"response": answers}
     else:
         # If no answers are found, use BART model to generate an answer from the full context without markers
-        inputs = tokenizer_bart.encode(full_input_without_markers, return_tensors="pt")
-        outputs = model_bart.generate(input_ids=inputs.to(device), max_new_tokens=126)
-        response_text = tokenizer_bart.decode(outputs[0], skip_special_tokens=True)
+        inputs = bart_tokenizer.encode(full_input_without_markers, return_tensors="pt")
+        outputs = bart_model.generate(input_ids=inputs.to("auto"), max_new_tokens=126)
+        response_text = bart_tokenizer.decode(outputs[0], skip_special_tokens=True)
         response_text = response_text.replace(' ', '')
         return {"response": response_text}
