@@ -1,9 +1,9 @@
-# NLP
+# Llama2 with knowledge tree retrieval & BART fine-tuning Chatbot
 
 ## Team
-Ma Man To Tony 23035732g
-Lam Shu Yu Jack 23026067g
-Tam Wai Yin Leonidas 23064207g
+Tony Ma
+Jack Lam
+Leonidas Tam
 
 ## System Structure
 ![NLP_architecture(low_level)](https://github.com/tonyma163/NLP/assets/69798498/f5f965e6-7646-41bf-b8d9-be8a71ad968c)
