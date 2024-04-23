@@ -6,6 +6,7 @@ Lam Shu Yu Jack 23026067g
 Tam Wai Yin Leonidas 23064207g
 
 ## System Structure
+![NLP_architecture(low_level)](https://github.com/tonyma163/NLP/assets/69798498/f5f965e6-7646-41bf-b8d9-be8a71ad968c)
 The system contain the server and web application.
 
 User could interact with the system from the web application through the local api endpoint hosted on the server.
