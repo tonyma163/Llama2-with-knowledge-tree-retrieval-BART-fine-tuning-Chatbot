@@ -36,10 +36,7 @@ def load_bart_model():
     tokenizer = BertTokenizer.from_pretrained(base_model, trust_remote_code=True)
     tokenizer.pad_token = tokenizer.eos_token
     tokenizer.padding_side = "right"
-    #pipe = Text2TextGenerationPipeline(model=model, tokenizer=tokenizer)
     return model, tokenizer
-
-
 
 def query_llama(llama_pipe, system_prompt, query, context):
     # Test

@@ -21,9 +21,10 @@ file_path = "../dataset/knowledge_set.txt"
 
 # Load knowledge set
 knowledge_df = load_knowledge_set(file_path)
+
+# Build knowledge tree
 G = build_tree(knowledge_df)
 
-#
 # Llama2 Prompting
 system_prompt = """
 Please answer the following question based on the provided context.

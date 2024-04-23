@@ -23,7 +23,7 @@ knowledge_set in the server directory
 
 ## Install Required Packages
 ```
-pip install transformers ctransformers accelerate datasets peft trl jieba fastapi uvicorn
+pip install transformers ctransformers accelerate datasets peft trl jieba fastapi uvicorn rouge-chinese
 ```
 
 ## Install Webapp Packages
