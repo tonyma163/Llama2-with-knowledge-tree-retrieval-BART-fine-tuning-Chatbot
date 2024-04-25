@@ -5,21 +5,17 @@ Tony Ma
 Jack Lam
 Leonidas Tam
 
+##
+This project aims to provide a solution for having a Simplified Chinese chatbot with contextual awareness and domain knowledge.
+
+The decision was made to fine-tune a BART model in order to incorporate contextual awareness and construct a knowledge tree for Llama2 retrieval, thereby ensuring accurate responses related to domain knowledge.
+
 ## System Structure
 ![NLP_architecture(low_level)](https://github.com/tonyma163/NLP/assets/69798498/f5f965e6-7646-41bf-b8d9-be8a71ad968c)
-The system contain the server and web application.
-
-User could interact with the system from the web application through the local api endpoint hosted on the server.
-
-The server contain loading the required models, loading the required knowledge_set file, and host the api endpoint for communication.
-
-Please ensure you have download the required environmental dependencies and packages.
 
 ## Prerequisite
 NodeJs installed
 pip installed
-python installed
-knowledge_set in the server directory
 
 ## Install Required Packages
 ```
