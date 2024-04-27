@@ -1,9 +1,11 @@
 # Llama2 with knowledge tree retrieval & BART fine-tuning Chatbot
 
 ## Team
-Tony Ma
-Jack Lam
-Leonidas Tam
+| Member |
+| ------------- |
+| Tony Ma |
+| Jack Lam |
+| Leonidas Tam |
 
 ##
 This project aims to provide a solution for having a Simplified Chinese chatbot with contextual awareness and domain knowledge.
@@ -14,8 +16,11 @@ The decision was made to fine-tune a BART model in order to incorporate contextu
 ![NLP_architecture(low_level)](https://github.com/tonyma163/NLP/assets/69798498/f5f965e6-7646-41bf-b8d9-be8a71ad968c)
 
 ## Prerequisite
-NodeJs installed
-pip installed
+| Dependency |
+| ------------- |
+| NodeJs |
+| python |
+| pip |
 
 ## Install Required Packages
 ```
