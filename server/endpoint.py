@@ -10,7 +10,7 @@ from utils import retrieve_answers
 router = APIRouter()
 
 # Hugging Face Access Token
-hf_access_token = "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"
+hf_access_token = ""
 
 # Load Models
 llama_pipe = load_llama_model(hf_access_token) # Llama pipeline
